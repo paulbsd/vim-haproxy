@@ -21,16 +21,19 @@ syntax keyword hapCondition      contained if unless                            
 syntax match   hapNone           contained /\v[^#]*/
 syntax match   hapString         contained /\v\S+/                                          skipwhite nextgroup=hapNone
 syntax match   hapPath           contained /\v\S+/                                          skipwhite nextgroup=hapNone
+syntax match   hapLuaPathArgs    contained /\v\S+/                                          skipwhite nextgroup=hapLuaPathArgs
 syntax match   hapConditionValue contained /\v.+/
 syntax match   hapGroup          contained /\v[a-z_]([a-z0-9_-]{0,15}|[a-z0-9_-]{0,14}\$)$/ skipwhite nextgroup=hapUsers
 syntax keyword hapLen            contained len                                              skipwhite nextgroup=hapNumber
 syntax match   hapNode           contained /\v(\w|-)+/                                      skipwhite nextgroup=hapNone
 syntax match   hapNumber         contained /\v\d+/
 syntax match   hapHttpHeader     contained /\v[a-zA-Z0-9-]+/                                skipwhite nextgroup=hapLen
-syntax keyword hapSection        global defaults                                            skipwhite nextgroup=hapNone
-syntax keyword hapSection        backend cache fcgi-app frontend http-errors listen         skipwhite nextgroup=hapSectionName
-syntax keyword hapSection        backend mailers peers program resolvers userlist           skipwhite nextgroup=hapSectionName
-syntax match   hapSectionName    contained /\v(\w|-|:|\.)+/                                 skipwhite nextgroup=hapNone
+syntax keyword hapSection        global                                                     skipwhite nextgroup=hapNone
+syntax keyword hapSection        defaults                                                   skipwhite nextgroup=hapSectionName
+syntax keyword hapSection        backend cache fcgi-app frontend http-errors listen         skipwhite nextgroup=hapFrom
+syntax keyword hapSection        backend mailers peers program resolvers userlist           skipwhite nextgroup=hapFrom
+syntax keyword hapFrom           from                                                       skipwhite nextgroup=hapSectionName
+syntax match   hapSectionName    contained /\v(\w|-|:|\.)+/                                 skipwhite nextgroup=hapFrom
 syntax match   hapStatus         contained /\v\d{3}/
 syntax match   hapTimeout        contained /\v\d+(us|ms|s|m|h|d)?/
 syntax match   hapUser           contained /\v[a-z_]([a-z0-9_-]{0,31}|[a-z0-9_-]{0,30}\$)$/
@@ -77,7 +80,7 @@ syntax keyword hapParam issuers-chain-path               skipwhite nextgroup=hap
 syntax keyword hapParam log                              skipwhite nextgroup=hapLogGlobal,hapIPaddr
 syntax keyword hapParam log-tag                          skipwhite nextgroup=hapString
 syntax keyword hapParam log-send-hostname                skipwhite nextgroup=hapString
-syntax keyword hapParam lua-load                         skipwhite nextgroup=hapPath
+syntax keyword hapParam lua-load                         skipwhite nextgroup=hapLuaPathArgs
 syntax keyword hapParam lua-prepend-path
 syntax keyword hapParam master-worker                    skipwhite nextgroup=hapMwParam
 syntax keyword hapParam max-spread-checks                skipwhite nextgroup=hapNumber
@@ -486,6 +489,7 @@ highlight link hapIPaddr            Identifier
 
 " Sections
 highlight link hapSection           Keyword
+highlight link hapFrom              Keyword
 
 " Names
 highlight link hapMailerName        Function
