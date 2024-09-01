@@ -328,10 +328,11 @@ syntax match   hapParam /\v<stats enable>/                              skipwhit
 syntax match   hapParam /\v<stats hide-version>/                        skipwhite nextgroup=hapNone
 syntax match   hapParam /\v<stats http-request>/
 syntax match   hapParam /\v<stats realm>/                               skipwhite nextgroup=hapString
-syntax match   hapParam /\v<stats refresh>/                             skipwhite nextgroup=hapNumber
+syntax match   hapParam /\v<stats refresh>/                             skipwhite nextgroup=hapString
 syntax match   hapParam /\v<stats scope>/
 syntax match   hapParam /\v<stats show-desc>/                           skipwhite nextgroup=hapString
 syntax match   hapParam /\v<stats show-legends>/                        skipwhite nextgroup=hapNone
+syntax match   hapParam /\v<stats show-modules>/                        skipwhite nextgroup=hapNone
 syntax match   hapParam /\v<stats show-node>/                           skipwhite nextgroup=hapString
 syntax match   hapParam /\v<stats uri>/
 syntax match   hapParam /\v<stick match>/
