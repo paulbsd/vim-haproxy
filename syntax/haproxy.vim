@@ -58,7 +58,7 @@ syntax keyword hapObserve        contained layer4 layer7
 " Global parameters
 "
 syntax keyword hapParam agent-check
-syntax keyword hapParam agent-port                       skipwhite nextgroup=hapString
+syntax keyword hapParam agent-port                       skipwhite nextgroup=hapNumber
 syntax keyword hapParam agent-send                       skipwhite nextgroup=hapString
 syntax keyword hapParam busy-polling                     skipwhite nextgroup=hapNone
 syntax keyword hapParam ca-base                          skipwhite nextgroup=hapString
@@ -74,7 +74,7 @@ syntax keyword hapParam deviceatlas-log-level            skipwhite nextgroup=hap
 syntax keyword hapParam deviceatlas-separator
 syntax keyword hapParam deviceatlas-properties-cookie    skipwhite nextgroup=hapString
 syntax keyword hapParam external-check                   skipwhite nextgroup=hapNone
-syntax keyword hapParam fall                             skipwhite nextgroup=hapString
+syntax keyword hapParam fall                             skipwhite nextgroup=hapNumber
 syntax keyword hapParam gid                              skipwhite nextgroup=hapNumber
 syntax keyword hapParam group                            skipwhite nextgroup=hapGroup
 syntax keyword hapParam hard-stop-after                  skipwhite nextgroup=hapTimeout
@@ -118,7 +118,7 @@ syntax keyword hapParam presetenv
 syntax keyword hapParam profiling.tasks                  skipwhite nextgroup=hapProfTask
 syntax keyword hapParam quiet
 syntax keyword hapParam resetenv
-syntax keyword hapParam rise                             skipwhite nextgroup=hapString
+syntax keyword hapParam rise                             skipwhite nextgroup=hapNumber
 syntax match   hapParam /\v<stats\sbind-process>/        skipwhite nextgroup=hapBindProcess
 syntax keyword hapParam uid                              skipwhite nextgroup=hapNumber
 syntax keyword hapParam ulimit-n                         skipwhite nextgroup=hapNumber
