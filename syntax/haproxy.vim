@@ -19,7 +19,7 @@ syntax keyword hapBool           contained on off
 syntax match   hapComment        /\v#.*$/
 syntax keyword hapCondition      contained if unless                                        skipwhite nextgroup=hapConditionValue
 syntax match   hapNone           contained /\v[^#]*/
-syntax match   hapString         contained /\v\S+/                                          skipwhite nextgroup=hapNone
+syntax match   hapString         contained /\v(".*"|\S+)/
 syntax match   hapPath           contained /\v\S+/                                          skipwhite nextgroup=hapNone
 syntax match   hapLuaPathArgs    contained /\v\S+/                                          skipwhite nextgroup=hapLuaPathArgs
 syntax match   hapConditionValue contained /\v.+/
@@ -51,17 +51,22 @@ syntax match   hapIPaddr         contained /\v(\x{1,4}:){3}:((\x{1,4}:){,3}\x{1,
 syntax match   hapIPaddr         contained /\v(\x{1,4}:){4}:((\x{1,4}:){,2}\x{1,4}|(\x{1,4}:){,1}([0-2]?\d{1,2}\.){3}[0-2]?\d{1,2})/
 syntax match   hapIPaddr         contained /\v(\x{1,4}:){5}:((\x{1,4}:){,1}\x{1,4}|([0-2]?\d{1,2}\.){3}[0-2]?\d{1,2})/
 syntax match   hapIPaddr         contained /\v(\x{1,4}:){6}:\x{1,4}/
+syntax keyword hapObserve        contained layer4 layer7
 
 
 "
 " Global parameters
 "
+syntax keyword hapParam agent-check
+syntax keyword hapParam agent-port                       skipwhite nextgroup=hapString
+syntax keyword hapParam agent-send                       skipwhite nextgroup=hapString
 syntax keyword hapParam busy-polling                     skipwhite nextgroup=hapNone
 syntax keyword hapParam ca-base                          skipwhite nextgroup=hapString
+syntax keyword hapParam check
 syntax keyword hapParam chroot                           skipwhite nextgroup=hapPath
 syntax keyword hapParam crt-base                         skipwhite nextgroup=hapString
 syntax keyword hapParam cpu-map
-syntax keyword hapParam daemon                           skipwhite nextgroup=hapNone
+syntax keyword hapParam daemon                           skipwhite nextgroup=hapString
 syntax keyword hapParam debug                            skipwhite nextgroup=hapString
 syntax keyword hapParam description
 syntax keyword hapParam deviceatlas-json-file            skipwhite nextgroup=hapPath
@@ -69,11 +74,13 @@ syntax keyword hapParam deviceatlas-log-level            skipwhite nextgroup=hap
 syntax keyword hapParam deviceatlas-separator
 syntax keyword hapParam deviceatlas-properties-cookie    skipwhite nextgroup=hapString
 syntax keyword hapParam external-check                   skipwhite nextgroup=hapNone
+syntax keyword hapParam fall                             skipwhite nextgroup=hapString
 syntax keyword hapParam gid                              skipwhite nextgroup=hapNumber
 syntax keyword hapParam group                            skipwhite nextgroup=hapGroup
 syntax keyword hapParam hard-stop-after                  skipwhite nextgroup=hapTimeout
 syntax keyword hapParam h1-case-adjust
 syntax keyword hapParam h1-case-adjust-file              skipwhite nextgroup=hapPath
+syntax keyword hapParam inter                            skipwhite nextgroup=hapTimeout
 syntax keyword hapParam insecure-fork-wanted             skipwhite nextgroup=hapNone
 syntax keyword hapParam insecure-setuid-wanted           skipwhite nextgroup=hapNone
 syntax keyword hapParam issuers-chain-path               skipwhite nextgroup=hapPath
@@ -81,7 +88,7 @@ syntax keyword hapParam log                              skipwhite nextgroup=hap
 syntax keyword hapParam log-tag                          skipwhite nextgroup=hapString
 syntax keyword hapParam log-send-hostname                skipwhite nextgroup=hapString
 syntax keyword hapParam lua-load                         skipwhite nextgroup=hapLuaPathArgs
-syntax keyword hapParam lua-prepend-path
+syntax keyword hapParam lua-prepend-path                 skipwhite nextgroup=hapLuaPathArgs
 syntax keyword hapParam master-worker                    skipwhite nextgroup=hapMwParam
 syntax keyword hapParam max-spread-checks                skipwhite nextgroup=hapNumber
 syntax keyword hapParam maxconn                          skipwhite nextgroup=hapNumber
@@ -104,20 +111,26 @@ syntax keyword hapParam nopoll                           skipwhite nextgroup=hap
 syntax keyword hapParam nosplice                         skipwhite nextgroup=hapNone
 syntax keyword hapParam nogetaddrinfo                    skipwhite nextgroup=hapNone
 syntax keyword hapParam noreuseport                      skipwhite nextgroup=hapNone
+syntax keyword hapParam observe                          skipwhite nextgroup=hapObserve
+syntax keyword hapParam port                             skipwhite nextgroup=hapNumber
 syntax keyword hapParam pidfile                          skipwhite nextgroup=hapString
 syntax keyword hapParam presetenv
 syntax keyword hapParam profiling.tasks                  skipwhite nextgroup=hapProfTask
 syntax keyword hapParam quiet
 syntax keyword hapParam resetenv
+syntax keyword hapParam rise                             skipwhite nextgroup=hapString
 syntax match   hapParam /\v<stats\sbind-process>/        skipwhite nextgroup=hapBindProcess
 syntax keyword hapParam uid                              skipwhite nextgroup=hapNumber
 syntax keyword hapParam ulimit-n                         skipwhite nextgroup=hapNumber
 syntax keyword hapParam user                             skipwhite nextgroup=hapUser
+syntax keyword hapParam send-proxy
 syntax keyword hapParam set-dumpable                     skipwhite nextgroup=hapNone
+syntax keyword hapParam set-var
 syntax keyword hapParam setenv
 syntax keyword hapParam server-state-base                skipwhite nextgroup=hapPath
 syntax keyword hapParam server-state-file                skipwhite nextgroup=hapPath
 syntax keyword hapParam spread-checks                    skipwhite nextgroup=hapNumber
+syntax keyword hapParam ssl
 syntax keyword hapParam ssl-engine
 syntax keyword hapParam ssl-default-bind-ciphers         skipwhite nextgroup=hapString
 syntax keyword hapParam ssl-default-bind-ciphersuites    skipwhite nextgroup=hapString
@@ -149,6 +162,7 @@ syntax keyword hapParam tune.idletimer                   skipwhite nextgroup=hap
 syntax keyword hapParam tune.listener.multi-queue        skipwhite nextgroup=hapBool
 syntax keyword hapParam tune.lua.forced-yield            skipwhite nextgroup=hapNumber
 syntax keyword hapParam tune.lua.maxmem                  skipwhite nextgroup=hapNumber
+syntax keyword hapParam tune.lua.bool-sample-conversion  skipwhite nextgroup=hapString
 syntax keyword hapParam tune.lua.session-timeout         skipwhite nextgroup=hapTimeout
 syntax keyword hapParam tune.lua.task-timeout            skipwhite nextgroup=hapTimeout
 syntax keyword hapParam tune.lua.service-timeout         skipwhite nextgroup=hapTimeout
@@ -179,6 +193,8 @@ syntax keyword hapParam tune.zlib.memlevel               skipwhite nextgroup=hap
 syntax keyword hapParam tune.zlib.windowsize             skipwhite nextgroup=hapNumber
 syntax keyword hapParam unix-bind                        skipwhite nextgroup=hapUnixBind
 syntax keyword hapParam unsetenv
+syntax keyword hapParam verify                           skipwhite nextgroup=hapString
+syntax keyword hapParam weight                           skipwhite nextgroup=hapNumber
 syntax keyword hapParam wurfl-data-file                  skipwhite nextgroup=hapPath
 syntax keyword hapParam wurfl-information-list           skipwhite nextgroup=hapWurflCapability
 syntax keyword hapParam wurfl-information-list-separator
@@ -192,9 +208,9 @@ syntax match   hapCiphers           contained /\v\S+/
 syntax keyword hapLogGlobal         contained global
 syntax keyword hapMwParam           contained no-exit-on-failure skipwhite nextgroup=hapNone
 syntax keyword hapProfTask          contained auto on off
-syntax keyword hapSslDefaultOptions contained force-sslv3 force-tlsv10 force-tlsv11 force-tlsv12 force-tlsv13
-syntax keyword hapSslDefaultOptions contained no-sslv3 no-tls-tickets no-tlsv10 no-tlsv11 no-tlsv12 no-tlsv13
-syntax keyword hapSslDefaultOptions contained ssl-max-ver ssl-min-ver
+syntax keyword hapSslDefaultOptions contained force-sslv3 force-tlsv10 force-tlsv11 force-tlsv12 force-tlsv13 skipwhite nextgroup=hapSslDefaultOptions
+syntax keyword hapSslDefaultOptions contained no-sslv3 no-tls-tickets no-tlsv10 no-tlsv11 no-tlsv12 no-tlsv13 skipwhite nextgroup=hapSslDefaultOptions
+syntax keyword hapSslDefaultOptions contained ssl-max-ver ssl-min-ver skipwhite nextgroup=hapSslDefaultOptions
 syntax match   hapSslExtra          contained /\v(\s?(none|all|bundle|sctl|ocsp|issuer|key))+/
 syntax keyword hapSslVerify         contained none required
 syntax keyword hapUnixBind          contained prefix mode user uid group gid
@@ -204,7 +220,7 @@ syntax keyword hapWurflCapability   contained wurfl_api_version wurfl_info wurfl
 "
 " Proxy parameters
 "
-syntax keyword hapParam acl
+syntax keyword hapParam acl                              skipwhite nextgroup=hapString
 syntax keyword hapParam backlog                          skipwhite nextgroup=hapNumber
 syntax keyword hapParam balance                          skipwhite nextgroup=hapBalAlgos
 syntax keyword hapParam bind                             skipwhite nextgroup=hapIPaddr
@@ -213,7 +229,7 @@ syntax match   hapParam /\v<capture cookie>/             skipwhite nextgroup=hap
 syntax match   hapParam /\v<capture request header>/     skipwhite nextgroup=hapHttpHeader
 syntax match   hapParam /\v<capture response header>/    skipwhite nextgroup=hapHttpHeader
 syntax match   hapParam /\v<compression algo>/           skipwhite nextgroup=hapCompAlgos
-syntax match   hapParam /\v<compression type>/           skipwhite nextgroup=hapCompAlgos
+syntax match   hapParam /\v<compression type>/           skipwhite nextgroup=hapCompTypes
 syntax match   hapParam /\v<compression offload>/        skipwhite nextgroup=hapNone
 syntax keyword hapParam cookie                           skipwhite nextgroup=hapCookieName
 syntax match   hapParam /\v<declare capture>/            skipwhite nextgroup=hapCaptureType,hapLen
@@ -242,9 +258,11 @@ syntax keyword hapParam hash-type                        skipwhite nextgroup=hap
 syntax keyword hapParam http-after-response              skipwhite nextgroup=hapHttpAfterResponse
 syntax match   hapParam /\v<http-check disable-on-404>/  skipwhite nextgroup=hapNone
 syntax match   hapParam /\v<http-check expect>/
+syntax match   hapParam /\v<http-check connect>/
+syntax match   hapParam /\v<http-check send>/
 syntax match   hapParam /\v<http-check send-state>/      skipwhite nextgroup=hapNone
 syntax keyword hapParam http-request                     skipwhite nextgroup=hapHttpReq
-syntax keyword hapParam http-response
+syntax keyword hapParam http-response                    skipwhite nextgroup=hapHttpRes
 syntax keyword hapParam http-reuse                       skipwhite nextgroup=hapHttpReuse
 syntax keyword hapParam http-send-name-header            skipwhite nextgroup=hapString
 syntax keyword hapParam id                               skipwhite nextgroup=hapNumber
@@ -364,7 +382,7 @@ syntax match   hapParam /\v<timeout tunnel>/                            skipwhit
 syntax match   hapParam /\v<transparent>/                               skipwhite nextgroup=hapNone
 syntax keyword hapParam unique-id-format                                skipwhite nextgroup=hapString
 syntax keyword hapParam unique-id-header                                skipwhite nextgroup=hapHttpHeader
-syntax keyword hapParam use_backend
+syntax keyword hapParam use_backend                                     skipwhite nextgroup=hapString
 syntax keyword hapParam use-fcgi-app                                    skipwhite nextgroup=hapSectionName
 syntax keyword hapParam use-server                                      skipwhite nextgroup=hapSrvName
 " Values
@@ -373,17 +391,24 @@ syntax match   hapBindProcess       contained /\v(all|odd|even|\d+(-\d+)?)>/
 syntax match   hapCookieName        contained /\v\S+/                   skipwhite nextgroup=hapLen,hapCookieParam
 syntax match   hapCookieParam       contained /\v((rewrite|insert|prefix)|indirect|nocache|postonly|preserve|httponly|secure|domain|maxidle|maxlife|dynamic|attr)/
 syntax match   hapCompAlgos         contained /\v(\s?(identity|gzip|deflate|raw-deflate))+/
+syntax match   hapCompTypes         contained /\v((\S+\/\S+) )+\S+\/\S+/
 syntax match   hapFilterName        contained /\v\S+/                   skipwhite nextgroup=hapFilterParam
 syntax keyword hapFilterParam       contained random-parsing random-forwarding hexdump
 syntax keyword hapHashFunction      contained sdbm djb2 wt6 crc32       skipwhite nextgroup=hapHashModifier
 syntax keyword hapHashMethod        contained map-based consistent      skipwhite nextgroup=hapHashFunction
 syntax keyword hapHashModifier      contained avalanche
 syntax keyword hapHttpAfterResponse contained add-header allow del-header replace-header replace-value
-syntax keyword hapHttpAfterResponse contained set-header set-status set-var strict-mode unset-var
+syntax keyword hapHttpAfterResponse contained set-header set-status set-var strict-mode unset-var deny
 syntax keyword hapHttpCode          contained 200 400 403 404 405 408 410 425 429 500 502 503 504
 syntax keyword hapHttpReq           contained add-acl add-header auth allow cache-use capture del-acl
 syntax keyword hapHttpReq           contained del-header del-map deny disable-l7-retry do-resolve
 syntax keyword hapHttpReq           contained early-hint redirect reject replace-header replace-path
+syntax keyword hapHttpReq           contained set-header return set-var silent-drop deny
+syntax keyword hapHttpReq           contained track-sc0
+syntax keyword hapHttpRes           contained add-acl add-header allow capture del-acl
+syntax keyword hapHttpRes           contained del-header del-map deny
+syntax keyword hapHttpRes           contained early-hint redirect reject replace-header replace-path
+syntax keyword hapHttpRes           contained set-header return set-var silent-drop deny cache-store
 syntax keyword hapLoadSrvFrom       contained global local none
 syntax keyword hapMode              contained http tcp health           skipwhite nextgroup=hapNone
 syntax keyword hapOptFwdFor         contained except header if-none     skipwhite nextgroup=hapNone
@@ -430,7 +455,7 @@ syntax keyword hapParam max-age                                         skipwhit
 "
 syntax keyword hapParam log-stderr
 syntax match   hapParam /\v<log-stderr global>/                         skipwhite nextgroup=hapNone
-syntax keyword hapParam acl
+syntax keyword hapParam acl                                             skipwhite nextgroup=hapString
 syntax keyword hapParam docroot                                         skipwhite nextgroup=hapPath
 syntax keyword hapParam index
 syntax keyword hapParam pass-header
@@ -488,6 +513,9 @@ highlight link hapNone              Error
 " IP Address
 highlight link hapIPaddr            Identifier
 
+" Observe param
+highlight link hapObserve           Identifier
+
 " Sections
 highlight link hapSection           Keyword
 highlight link hapFrom              Keyword
@@ -531,12 +559,14 @@ highlight link hapBalAlgos          hapBool
 highlight link hapBindProcess       hapBool
 highlight link hapCaptureType       hapBool
 highlight link hapCompAlgos         hapBool
+highlight link hapCompTypes         hapString
 highlight link hapFilterParam       hapBool
 highlight link hapHashMethod        hapBool
 highlight link hapHashModifier      hapBool
 highlight link hapHashFunction      hapBool
 highlight link hapHttpCode          hapBool
 highlight link hapHttpReq           hapBool
+highlight link hapHttpRes           hapBool
 highlight link hapHttpReuse         hapBool
 highlight link hapOption            hapBool
 highlight link hapStatus            hapBool
@@ -554,5 +584,6 @@ highlight link hapSslVerify         hapBool
 highlight link hapSyslogLevel       hapBool
 highlight link hapUnixBind          hapBool
 highlight link hapWurflCapability   hapBool
+highlight link hapLuaPathArgs       hapPath
 
 let b:current_syntax = 'haproxy'
