@@ -124,6 +124,7 @@ syntax keyword hapParam uid                              skipwhite nextgroup=hap
 syntax keyword hapParam ulimit-n                         skipwhite nextgroup=hapNumber
 syntax keyword hapParam user                             skipwhite nextgroup=hapUser
 syntax keyword hapParam send-proxy
+syntax keyword hapParam send-proxy-v2
 syntax keyword hapParam set-dumpable                     skipwhite nextgroup=hapNone
 syntax keyword hapParam set-var
 syntax keyword hapParam setenv
