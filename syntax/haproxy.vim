@@ -36,6 +36,7 @@ syntax keyword hapFrom           from                                           
 syntax match   hapSectionName    contained /\v(\w|-|:|\.)+/                                 skipwhite nextgroup=hapFrom
 syntax match   hapStatus         contained /\v\d{3}/
 syntax match   hapTimeout        contained /\v\d+(us|ms|s|m|h|d)?/
+syntax match   hapTime           contained /\v\d+(us|ms|s|m|h|d)?/
 syntax match   hapUser           contained /\v[a-z_]([a-z0-9_-]{0,31}|[a-z0-9_-]{0,30}\$)$/
 syntax keyword hapUsers          users                                                      skipwhite nextgroup=hapUsersList
 syntax match   hapUsersList      contained /\v([a-z_]([a-z0-9_-]{0,31}|[a-z0-9_-]{0,30}\$),?)+$/
@@ -60,6 +61,8 @@ syntax keyword hapObserve        contained layer4 layer7
 syntax keyword hapParam agent-check
 syntax keyword hapParam agent-port                       skipwhite nextgroup=hapNumber
 syntax keyword hapParam agent-send                       skipwhite nextgroup=hapString
+syntax keyword hapParam agent-inter                      skipwhite nextgroup=hapTime
+syntax keyword hapParam agent-addr                       skipwhite nextgroup=hapString
 syntax keyword hapParam busy-polling                     skipwhite nextgroup=hapNone
 syntax keyword hapParam ca-base                          skipwhite nextgroup=hapString
 syntax keyword hapParam check
@@ -544,6 +547,7 @@ highlight link hapNumber            Number
 highlight link hapConditionValue    hapCiphers
 highlight link hapCookieName        hapCiphers
 highlight link hapTimeout           hapCiphers
+highlight link hapTime              hapCiphers
 highlight link hapUser              hapCiphers
 highlight link hapGroup             hapCiphers
 highlight link hapNode              hapCiphers
